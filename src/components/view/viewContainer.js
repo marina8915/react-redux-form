@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
-import SecondComponent from './secondComponent'
+import view from './view'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    someUserName: state.main.name
+    someUser: state.main.user
   }
 }
 
 export default connect(
-  mapStateToProps)(SecondComponent)
+  mapStateToProps)(view)

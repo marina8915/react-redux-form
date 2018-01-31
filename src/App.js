@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
 import './App.css'
 import Form from './components/form/formContainer'
 import View from './components/view/viewContainer'
