@@ -10,6 +10,7 @@ class App extends Component {
         <header className='App-header'>
           <h1 className='App-title'>React redux form</h1>
         </header>
+        <p>Required fields are highlighted in blue</p>
         <Form />
         <View />
       </div>

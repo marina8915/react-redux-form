@@ -15,10 +15,13 @@ export default class Form extends Component {
         this.saveInfo = this.saveInfo.bind(this)
     }
 
-    changeInfo ({target: {value, name}}) {
+    changeInfo({target: {value, name, className}}) {
         this.setState({
             [name]: value
         })
+        if (className === 'required' && !value) {
+            console.log([name] + ' is required')
+        }
     }
 
     saveInfo() {
@@ -29,12 +32,12 @@ export default class Form extends Component {
         this.props.changeStateProps('postcode', this.state.postcode)
         this.props.changeStateProps('dateBirth', this.state.dateBirth)
         this.setState({
-                name: '',
-                email: '',
-                phone: '',
-                address: '',
-                postcode: '',
-                dateBirth: ''
+            name: '',
+            email: '',
+            phone: '',
+            address: '',
+            postcode: '',
+            dateBirth: ''
         })
     }
 
@@ -42,12 +45,14 @@ export default class Form extends Component {
         return (
             <form>
                 <input
+                    className='required'
                     name='name'
                     type='text'
                     placeholder='Name'
                     onChange={this.changeInfo}
                 />
                 <input
+                    className='required'
                     name='email'
                     type='text'
                     placeholder='Email'
@@ -66,12 +71,14 @@ export default class Form extends Component {
                     onChange={this.changeInfo}
                 />
                 <input
+                    className='required'
                     name='postcode'
                     type='text'
                     placeholder='Postcode'
                     onChange={this.changeInfo}
                 />
                 <input
+                    className='required'
                     name='dateBirth'
                     type='text'
                     placeholder='dateBirth'

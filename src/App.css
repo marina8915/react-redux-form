@@ -28,6 +28,14 @@ input[type='text'] {
   margin-bottom: 20px;
 }
 
+.required {
+  border: 1px solid #39c;
+}
+
+ul {
+  list-style: none;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
