@@ -1,11 +1,16 @@
 import { connect } from 'react-redux'
-import view from './view'
+import View from './view'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    someUser: state.main.user
+      someName: state.main.name,
+      someEmail: state.main.email,
+      somePhone: state.main.phone,
+      someAddress: state.main.address,
+      somePostcode: state.main.postcode,
+      someDateBirth: state.main.dateBirth
   }
 }
 
 export default connect(
-  mapStateToProps)(view)
+  mapStateToProps)(View)

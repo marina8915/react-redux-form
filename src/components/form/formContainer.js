@@ -1,11 +1,16 @@
 import { connect } from 'react-redux'
 import { changeStateProps } from '../../actions'
-import form from './form'
+import Form from './form'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    someUser: state.main.user,
-    isUserEqual: state.main.name,
+      someName: state.main.name,
+      someEmail: state.main.email,
+      somePhone: state.main.name,
+      someAddress: state.main.email,
+      somePostcode: state.main.postcode,
+      someDateBirth: state.main.dateBirth,
+      isUserEqual: state.main.name === ownProps.testName,
     ...ownProps
   }
 }
@@ -20,4 +25,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps)(form)
+  mapDispatchToProps)(Form)

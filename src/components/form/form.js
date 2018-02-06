@@ -1,51 +1,87 @@
 import React, {Component} from 'react'
-import update from 'immutability-helper'
 
 export default class Form extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            user: this.props.user
+            name: '',
+            email: '',
+            phone: '',
+            address: '',
+            postcode: '',
+            dateBirth: ''
         }
         this.changeInfo = this.changeInfo.bind(this)
+        this.saveInfo = this.saveInfo.bind(this)
     }
 
-    componentDidMount() {
-
-    }
-
-    changeInfo({target: {value, label}}) {
+    changeInfo ({target: {value, name}}) {
         this.setState({
-            user: update(this.state.user, {
-                [label]: {$set: value}
-            })
+            [name]: value
         })
     }
 
     saveInfo() {
-        this.props.changeStateProps('user', this.state.user)
+        this.props.changeStateProps('name', this.state.name)
+        this.props.changeStateProps('email', this.state.email)
+        this.props.changeStateProps('phone', this.state.phone)
+        this.props.changeStateProps('address', this.state.address)
+        this.props.changeStateProps('postcode', this.state.postcode)
+        this.props.changeStateProps('dateBirth', this.state.dateBirth)
         this.setState({
-            user: {
                 name: '',
                 email: '',
                 phone: '',
                 address: '',
                 postcode: '',
-                dateBirth: '',
-            }
+                dateBirth: ''
         })
     }
 
     render() {
         return (
             <form>
-                <input name='name' type='text' placeholder='Name' onChange={this.changeInfo}/>
-                <input name='email' type='text' placeholder='Email' onChange={this.changeInfo}/>
-                <input name='phone' type='text' placeholder='Phone' onChange={this.changeInfo}/>
-                <input name='address' type='text' placeholder='Address' onChange={this.changeInfo}/>
-                <input name='postcode' type='text' placeholder='Postcode' onChange={this.changeInfo}/>
-                <input name='dateBirth' type='text' placeholder='dateBirth' onChange={this.changeInfo}/><br/>
-                <input type='submit' value='Save' onClick={this.saveInfo}/>
+                <input
+                    name='name'
+                    type='text'
+                    placeholder='Name'
+                    onChange={this.changeInfo}
+                />
+                <input
+                    name='email'
+                    type='text'
+                    placeholder='Email'
+                    onChange={this.changeInfo}
+                />
+                <input
+                    name='phone'
+                    type='text'
+                    placeholder='Phone'
+                    onChange={this.changeInfo}
+                />
+                <input
+                    name='address'
+                    type='text'
+                    placeholder='Address'
+                    onChange={this.changeInfo}
+                />
+                <input
+                    name='postcode'
+                    type='text'
+                    placeholder='Postcode'
+                    onChange={this.changeInfo}
+                />
+                <input
+                    name='dateBirth'
+                    type='text'
+                    placeholder='dateBirth'
+                    onChange={this.changeInfo}
+                /><br/>
+                <input
+                    type='submit'
+                    value='Save'
+                    onClick={this.saveInfo}
+                />
             </form>
         )
     }
