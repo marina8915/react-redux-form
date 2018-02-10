@@ -29,14 +29,19 @@ export default class Form extends Component {
                 [name]: value
             })
         } else {
-            if (className === 'required') {
+            if (className==='required') {
                 this.setState({
                     [errorName]: [name] + ' is required',
                     validation: false
                 })
             }
         }
-
+        if  ((name === 'phone' || name === 'postcode') && !value.replace (/\D/, '')) {
+            this.setState({
+                [errorName]: [name] + ' - must be a number',
+                validation: false
+            })
+        }
     }
 
     saveInfo() {
