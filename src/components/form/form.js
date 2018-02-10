@@ -1,21 +1,26 @@
 import React, {Component} from 'react'
+import update from 'immutability-helper'
 
 export default class Form extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            name: '',
-            email: '',
-            phone: '',
-            address: '',
-            postcode: '',
-            dateBirth: '',
-            nameError: '',
-            emailError: '',
-            phoneError: '',
-            addressError: '',
-            postcodeError: '',
-            dateBirthError: '',
+            user: {
+                name: '',
+                email: '',
+                phone: '',
+                address: '',
+                postcode: '',
+                dateBirth: ''
+            },
+            errors: {
+                nameError: '',
+                emailError: '',
+                phoneError: '',
+                addressError: '',
+                postcodeError: '',
+                dateBirthError: ''
+            },
             validation: true
         }
         this.changeInfo = this.changeInfo.bind(this)
@@ -24,19 +29,24 @@ export default class Form extends Component {
 
     changeInfo({target: {value, name, className}}) {
         var errorName = [name] + 'Error'
+        var errorText = [name] + ' - must be a number'
         if (value || value.replace(/ /g, '')) {
             this.setState({
-                [name]: value
+                user: update(this.state.user, {
+                    [name]: {$set: value}
+                })
             })
         } else {
-            if (className==='required') {
+            if (className === 'required') {
                 this.setState({
-                    [errorName]: [name] + ' is required',
+                    errors: update(this.state.errors, {
+                        [errorName]: {$set: errorText}
+                    }),
                     validation: false
                 })
             }
         }
-        if  ((name === 'phone' || name === 'postcode') && !value.replace (/\D/, '')) {
+        if ((name === 'phone' || name === 'postcode') && isNaN(value)) {
             this.setState({
                 [errorName]: [name] + ' - must be a number',
                 validation: false
@@ -45,47 +55,26 @@ export default class Form extends Component {
     }
 
     saveInfo() {
-        this.setState({
-            name: this.state.name,
-            email: this.state.email,
-            phone: this.state.phone,
-            address: this.state.address,
-            postcode: this.state.postcode,
-            dateBirth: this.state.dateBirth,
-            nameError: this.state.nameError,
-            emailError: this.state.emailError,
-            phoneError: this.state.phoneError,
-            addressError: this.state.addressError,
-            postcodeError: this.state.postcodeError,
-            dateBirthError: this.state.dateBirthError,
-            validation: this.state.validation
-        })
-        this.props.changeStateProps('name', this.state.name)
-        this.props.changeStateProps('email', this.state.email)
-        this.props.changeStateProps('phone', this.state.phone)
-        this.props.changeStateProps('address', this.state.address)
-        this.props.changeStateProps('postcode', this.state.postcode)
-        this.props.changeStateProps('dateBirth', this.state.dateBirth)
-        this.props.changeStateProps('nameError', this.state.nameError)
-        this.props.changeStateProps('emailError', this.state.emailError)
-        this.props.changeStateProps('phoneError', this.state.phoneError)
-        this.props.changeStateProps('addressError', this.state.addressError)
-        this.props.changeStateProps('postcodeError', this.state.postcodeError)
-        this.props.changeStateProps('dateBirthError', this.state.dateBirthError)
-        if (this.state.validation === true) {
+        this.props.changeStateProps('user', this.state.user)
+        this.props.changeStateProps('errors', this.state.errors)
+        if (this.state.validation !== true) {
             this.setState({
-                name: '',
-                email: '',
-                phone: '',
-                address: '',
-                postcode: '',
-                dateBirth: '',
-                nameError: '',
-                emailError: '',
-                phoneError: '',
-                addressError: '',
-                postcodeError: '',
-                dateBirthError: '',
+                user: {
+                    name: '',
+                    email: '',
+                    phone: '',
+                    address: '',
+                    postcode: '',
+                    dateBirth: '',
+                },
+                errors: {
+                    nameError: '',
+                    emailError: '',
+                    phoneError: '',
+                    addressError: '',
+                    postcodeError: '',
+                    dateBirthError: '',
+                },
                 validation: true
             })
         }
@@ -110,7 +99,7 @@ export default class Form extends Component {
                 />
                 <input
                     name='phone'
-                    type='text'
+                    type='number'
                     placeholder='Phone'
                     onChange={this.changeInfo}
                 />
@@ -123,14 +112,14 @@ export default class Form extends Component {
                 <input
                     className='required'
                     name='postcode'
-                    type='text'
+                    type='number'
                     placeholder='Postcode'
                     onChange={this.changeInfo}
                 />
                 <input
                     className='required'
                     name='dateBirth'
-                    type='text'
+                    type='date'
                     placeholder='dateBirth'
                     onChange={this.changeInfo}
                 /><br/>

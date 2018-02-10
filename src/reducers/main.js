@@ -1,18 +1,6 @@
 import update from 'immutability-helper'
 
 let defaultState = {
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    postcode: '',
-    dateBirth: '',
-    nameError: '',
-    emailError: '',
-    phoneError: '',
-    addressError: '',
-    postcodeError: '',
-    dateBirthError: '',
     validation: true
 }
 

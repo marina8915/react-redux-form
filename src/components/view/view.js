@@ -6,19 +6,19 @@ export default class View extends Component {
         return (
             <div>
                 <ul>
-                    <li>{this.props.someName}</li>
-                    <li>{this.props.someEmail}</li>
-                    <li>{this.props.somePhone}</li>
-                    <li>{this.props.someAddress}</li>
-                    <li>{this.props.somePostcode}</li>
-                    <li>{this.props.someDateBirth}</li>
+                    <li>{this.props.someUser.name}</li>
+                    <li>{this.props.someUser.email}</li>
+                    <li>{this.props.someUser.phone}</li>
+                    <li>{this.props.someUser.address}</li>
+                    <li>{this.props.someUser.postcode}</li>
+                    <li>{this.props.someUser.dateBirth}</li>
                     <ul className='errors'>
-                        <li>{this.props.someNameError}</li>
-                        <li>{this.props.someEmailError}</li>
-                        <li>{this.props.somePhoneError}</li>
-                        <li>{this.props.someAddressError}</li>
-                        <li>{this.props.somePostcodeError}</li>
-                        <li>{this.props.someDateBirthError}</li>
+                        <li>{this.props.someErrors.nameError}</li>
+                        <li>{this.props.someErrors.emailError}</li>
+                        <li>{this.props.someErrors.phoneError}</li>
+                        <li>{this.props.someErrors.addressError}</li>
+                        <li>{this.props.someErrors.postcodeError}</li>
+                        <li>{this.props.someErrors.dateBirthError}</li>
                     </ul>
                 </ul>
             </div>
