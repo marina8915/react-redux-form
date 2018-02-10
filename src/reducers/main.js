@@ -6,7 +6,14 @@ let defaultState = {
     phone: '',
     address: '',
     postcode: '',
-    dateBirth: ''
+    dateBirth: '',
+    nameError: '',
+    emailError: '',
+    phoneError: '',
+    addressError: '',
+    postcodeError: '',
+    dateBirthError: '',
+    validation: true
 }
 
 const main = (state = defaultState, action) => {

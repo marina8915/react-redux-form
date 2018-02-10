@@ -9,36 +9,81 @@ export default class Form extends Component {
             phone: '',
             address: '',
             postcode: '',
-            dateBirth: ''
+            dateBirth: '',
+            nameError: '',
+            emailError: '',
+            phoneError: '',
+            addressError: '',
+            postcodeError: '',
+            dateBirthError: '',
+            validation: true
         }
         this.changeInfo = this.changeInfo.bind(this)
         this.saveInfo = this.saveInfo.bind(this)
     }
 
     changeInfo({target: {value, name, className}}) {
-        this.setState({
-            [name]: value
-        })
-        if (className === 'required' && !value) {
-            console.log([name] + ' is required')
+        var errorName = [name] + 'Error'
+        if (value || value.replace(/ /g, '')) {
+            this.setState({
+                [name]: value
+            })
+        } else {
+            if (className === 'required') {
+                this.setState({
+                    [errorName]: [name] + ' is required',
+                    validation: false
+                })
+            }
         }
+
     }
 
     saveInfo() {
+        this.setState({
+            name: this.state.name,
+            email: this.state.email,
+            phone: this.state.phone,
+            address: this.state.address,
+            postcode: this.state.postcode,
+            dateBirth: this.state.dateBirth,
+            nameError: this.state.nameError,
+            emailError: this.state.emailError,
+            phoneError: this.state.phoneError,
+            addressError: this.state.addressError,
+            postcodeError: this.state.postcodeError,
+            dateBirthError: this.state.dateBirthError,
+            validation: this.state.validation
+        })
         this.props.changeStateProps('name', this.state.name)
         this.props.changeStateProps('email', this.state.email)
         this.props.changeStateProps('phone', this.state.phone)
         this.props.changeStateProps('address', this.state.address)
         this.props.changeStateProps('postcode', this.state.postcode)
         this.props.changeStateProps('dateBirth', this.state.dateBirth)
-        this.setState({
-            name: '',
-            email: '',
-            phone: '',
-            address: '',
-            postcode: '',
-            dateBirth: ''
-        })
+        this.props.changeStateProps('nameError', this.state.nameError)
+        this.props.changeStateProps('emailError', this.state.emailError)
+        this.props.changeStateProps('phoneError', this.state.phoneError)
+        this.props.changeStateProps('addressError', this.state.addressError)
+        this.props.changeStateProps('postcodeError', this.state.postcodeError)
+        this.props.changeStateProps('dateBirthError', this.state.dateBirthError)
+        if (this.state.validation === true) {
+            this.setState({
+                name: '',
+                email: '',
+                phone: '',
+                address: '',
+                postcode: '',
+                dateBirth: '',
+                nameError: '',
+                emailError: '',
+                phoneError: '',
+                addressError: '',
+                postcodeError: '',
+                dateBirthError: '',
+                validation: true
+            })
+        }
     }
 
     render() {
