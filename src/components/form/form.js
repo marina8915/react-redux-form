@@ -14,74 +14,73 @@ export default class Form extends Component {
                 dateBirth: ''
             },
             errors: {
-                nameError: '',
                 emailError: '',
                 phoneError: '',
-                addressError: '',
                 postcodeError: '',
-                dateBirthError: ''
-            },
-            validation: true
+                requireError: ''
+            }
         }
         this.changeInfo = this.changeInfo.bind(this)
         this.saveInfo = this.saveInfo.bind(this)
     }
 
-    changeInfo({target: {value, name, className}}) {
+
+    changeInfo({target: {value, name}}) {
         var errorName = [name] + 'Error'
-        var errorText = [name] + ' - must be a number'
         if (value || value.replace(/ /g, '')) {
             this.setState({
                 user: update(this.state.user, {
                     [name]: {$set: value}
+                }),
+                errors: update(this.state.errors, {
+                    [errorName]: {$set: ''}
                 })
             })
-        } else {
-            if (className === 'required') {
-                this.setState({
-                    errors: update(this.state.errors, {
-                        [errorName]: {$set: errorText}
-                    }),
-                    validation: false
-                })
-            }
         }
         if ((name === 'phone' || name === 'postcode') && isNaN(value)) {
             this.setState({
-                [errorName]: [name] + ' - must be a number',
-                validation: false
+                user: update(this.state.user, {
+                    [name]: {$set: ''}
+                }),
+                errors: update(this.state.errors, {
+                    [errorName]: {$set: [name] + ' - must be a number'}
+                })
             })
         }
     }
 
-    saveInfo() {
-        this.props.changeStateProps('user', this.state.user)
-        this.props.changeStateProps('errors', this.state.errors)
-        if (this.state.validation !== true) {
-            this.setState({
-                user: {
-                    name: '',
-                    email: '',
-                    phone: '',
-                    address: '',
-                    postcode: '',
-                    dateBirth: '',
-                },
-                errors: {
-                    nameError: '',
-                    emailError: '',
-                    phoneError: '',
-                    addressError: '',
-                    postcodeError: '',
-                    dateBirthError: '',
-                },
-                validation: true
-            })
+    saveInfo(event) {
+        event.preventDefault()
+        this.setState({
+            user: {
+                name: this.state.user.name,
+                email: this.state.user.email,
+                phone: this.state.user.phone,
+                address: this.state.user.address,
+                postcode: this.state.user.postcode,
+                dateBirth: this.state.user.dateBirth
+            },
+            errors: {
+                emailError: this.state.errors.emailError,
+                phoneError: this.state.errors.phoneError,
+                postcodeError: this.state.errors.postcodeError,
+                requireError: this.state.errors.requireError
+            }
+        })
+        if (this.state.user.name === '' ||
+            this.state.user.email === '' ||
+            this.state.user.postcode === '' ||
+            this.state.user.dateBirth === '') {
+            this.state.errors.requireError = 'Fill in required fields'
+        } else {
+            this.state.errors.requireError = ''
         }
+            this.props.changeStateProps('user', this.state.user)
+            this.props.changeStateProps('errors', this.state.errors)
     }
 
     render() {
-        return (
+       return (
             <form>
                 <input
                     className='required'
@@ -93,13 +92,13 @@ export default class Form extends Component {
                 <input
                     className='required'
                     name='email'
-                    type='text'
+                    type='email'
                     placeholder='Email'
                     onChange={this.changeInfo}
                 />
                 <input
                     name='phone'
-                    type='number'
+                    type='text'
                     placeholder='Phone'
                     onChange={this.changeInfo}
                 />
@@ -112,7 +111,7 @@ export default class Form extends Component {
                 <input
                     className='required'
                     name='postcode'
-                    type='number'
+                    type='text'
                     placeholder='Postcode'
                     onChange={this.changeInfo}
                 />

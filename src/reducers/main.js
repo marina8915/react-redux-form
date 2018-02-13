@@ -1,7 +1,20 @@
 import update from 'immutability-helper'
 
 let defaultState = {
-    validation: true
+    user: {
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        postcode: '',
+        dateBirth: ''
+    },
+    errors: {
+        emailError: '',
+        phoneError: '',
+        postcodeError: '',
+        requireError: ''
+    }
 }
 
 const main = (state = defaultState, action) => {
