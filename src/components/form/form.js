@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 import update from 'immutability-helper'
 
+const CHECK_EMAIL = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/
+const CHECK_EMPTY = / /g
+
 export default class Form extends Component {
     constructor(props) {
         super(props)
@@ -17,7 +20,7 @@ export default class Form extends Component {
                 emailError: '',
                 phoneError: '',
                 postcodeError: '',
-                requireError: ''
+                requiredError: ''
             }
         }
         this.changeInfo = this.changeInfo.bind(this)
@@ -25,28 +28,52 @@ export default class Form extends Component {
     }
 
 
-    changeInfo({target: {value, name}}) {
+    changeInfo({target: {value, name, className}}) {
         var errorName = [name] + 'Error'
-        if (value || value.replace(/ /g, '')) {
+        if (className === 'required' && !value.replace(CHECK_EMPTY, '')) {
             this.setState({
-                user: update(this.state.user, {
-                    [name]: {$set: value}
-                }),
                 errors: update(this.state.errors, {
-                    [errorName]: {$set: ''}
+                    requiredError: {$set: 'Fill in required fields'}
+                })
+            })
+        } else if (className === 'required') {
+            this.setState({
+                errors: update(this.state.errors, {
+                    requiredError: {$set: ''}
                 })
             })
         }
         if ((name === 'phone' || name === 'postcode') && isNaN(value)) {
             this.setState({
-                user: update(this.state.user, {
-                    [name]: {$set: ''}
-                }),
                 errors: update(this.state.errors, {
                     [errorName]: {$set: [name] + ' - must be a number'}
                 })
             })
+        } else if (name === 'phone' || name === 'postcode') {
+            this.setState({
+                errors: update(this.state.errors, {
+                    [errorName]: {$set: ''}
+                })
+            })
         }
+        if (name === 'email' && !CHECK_EMAIL.test(value)) {
+            this.setState({
+                errors: update(this.state.errors, {
+                    [errorName]: {$set: 'Not valid email'}
+                })
+            })
+        } else if (name === 'email') {
+            this.setState({
+                errors: update(this.state.errors, {
+                    [errorName]: {$set: ''}
+                })
+            })
+        }
+        this.setState({
+            user: update(this.state.user, {
+                [name]: {$set: value}
+            })
+        })
     }
 
     saveInfo(event) {
@@ -64,23 +91,34 @@ export default class Form extends Component {
                 emailError: this.state.errors.emailError,
                 phoneError: this.state.errors.phoneError,
                 postcodeError: this.state.errors.postcodeError,
-                requireError: this.state.errors.requireError
+                requiredError: this.state.errors.requiredError
             }
         })
-        if (this.state.user.name === '' ||
-            this.state.user.email === '' ||
-            this.state.user.postcode === '' ||
-            this.state.user.dateBirth === '') {
-            this.state.errors.requireError = 'Fill in required fields'
-        } else {
-            this.state.errors.requireError = ''
+
+        //check empty if in input not event onchange
+        var empty = true
+        if (!this.state.user.name.replace(CHECK_EMPTY, '')) {
+            empty = false
         }
-            this.props.changeStateProps('user', this.state.user)
-            this.props.changeStateProps('errors', this.state.errors)
+        else if (!this.state.user.email.replace(CHECK_EMPTY, '')) {
+            empty = false
+        }
+        else if (!this.state.user.postcode.replace(CHECK_EMPTY, '')) {
+            empty = false
+        }
+        else if (!this.state.user.dateBirth.replace(CHECK_EMPTY, '')) {
+            empty = false
+        }
+        if (!empty) {
+            this.state.errors.requiredError = 'Fill in required fields'
+        }
+
+        this.props.changeStateProps('user', this.state.user)
+        this.props.changeStateProps('errors', this.state.errors)
     }
 
     render() {
-       return (
+        return (
             <form>
                 <input
                     className='required'

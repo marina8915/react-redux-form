@@ -13,7 +13,7 @@ export default class View extends Component {
                     <li>{this.props.someUser.postcode}</li>
                     <li>{this.props.someUser.dateBirth}</li>
                     <ul className='errors'>
-                        <li>{this.props.someErrors.requireError}</li>
+                        <li>{this.props.someErrors.requiredError}</li>
                         <li>{this.props.someErrors.emailError}</li>
                         <li>{this.props.someErrors.phoneError}</li>
                         <li>{this.props.someErrors.postcodeError}</li>
